@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Manager 馃</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ccircle cx='256' cy='256' r='248' fill='%231a1a2e' stroke='%23ef4444' stroke-width='6'/%3E%3Cellipse cx='256' cy='280' rx='60' ry='90' fill='%23e63946'/%3E%3Cpath d='M216 350 Q200 400 220 430 Q240 460 256 470 Q272 460 292 430 Q312 400 296 350' fill='%23780000'/%3E%3Cellipse cx='256' cy='190' rx='50' ry='45' fill='%23e63946'/%3E%3Ccircle cx='238' cy='178' r='10' fill='%23fff'/%3E%3Ccircle cx='274' cy='178' r='10' fill='%23fff'/%3E%3Ccircle cx='240' cy='176' r='5' fill='%231a1a2e'/%3E%3Ccircle cx='276' cy='176' r='5' fill='%231a1a2e'/%3E%3C/svg%3E">
+<style>
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   RESET & BASE
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;overflow:hidden;background:#1a1a1f}
+body{display:flex;align-items:center;justify-content:center}
+:root{
+  --bg:#1a1a1f; --bg-card:#24242b; --bg-side:#1e1e24; --bg-log:#0d0d0f;
+  --red:#ef4444; --green:#10b981; --orange:#f59e0b;
+  --text:#e4e4e7; --text-dim:#71717a; --text-dimmer:#52525b;
+  --border:rgba(255,255,255,0.06); --radius:10px;
+}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   APP CONTAINER
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.app{display:flex;width:96vw;max-width:1440px;height:92vh;max-height:920px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   SIDEBAR
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.sidebar{width:200px;min-width:200px;background:var(--bg-side);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:0}
+.sidebar .brand{display:flex;align-items:center;gap:10px;padding:18px 18px 14px;border-bottom:1px solid var(--border)}
+.sidebar .brand .lobster{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#e63946,#c1121f);display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 3px 8px rgba(198,18,31,0.25)}
+.sidebar .brand .name{font-size:14px;font-weight:600;color:var(--text)}.sidebar .brand .ver{font-size:10px;color:var(--text-dimmer);margin-left:auto}
+.nav{padding:8px 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;margin:1px 8px;border-radius:var(--radius);font-size:13px;color:var(--text-dim);cursor:pointer;transition:all .12s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text)}
+.nav-item.active{color:var(--red);background:rgba(239,68,68,0.07)}.nav-item .icon{font-size:15px}
+.nav-item.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:16px;border-radius:0 3px 3px 0;background:var(--red)}
+.sidebar-footer{padding:10px 18px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-dimmer);text-align:center}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   MAIN CONTENT
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.main{flex:1;display:flex;flex-direction:column;background:var(--bg);min-width:0}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border)}
+.topbar .title{font-size:16px;font-weight:600;color:var(--text)}
+.topbar .subtitle{font-size:12px;color:var(--text-dim);margin-left:12px;font-weight:400}
+.topbar .action-btn{width:28px;height:28px;border-radius:6px;border:none;background:rgba(255,255,255,0.03);color:var(--text-dim);cursor:pointer;transition:all .12s;font-size:13px;display:flex;align-items:center;justify-content:center}
+.topbar .action-btn:hover{background:rgba(239,68,68,0.08);color:var(--red)}
+.content{flex:1;padding:20px 24px;overflow-y:auto;min-height:0}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   SECTION TITLES
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.section-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   STATUS CARDS
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.card{padding:18px 20px;border-radius:var(--radius);background:var(--bg-card);border:1px solid var(--border)}
+.card .label{font-size:11px;color:var(--text-dim);margin-bottom:4px}
+.card .value{font-size:22px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.card .value.red{color:var(--red)}.card .value.green{color:var(--green)}.card .value.orange{color:var(--orange)}
+.card .sub{font-size:11px;color:var(--text-dimmer);margin-top:3px}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   BUTTONS
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.btn-group{display:flex;gap:10px;margin-bottom:20px}
+.ctrl-btn{padding:9px 22px;border-radius:var(--radius);border:none;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;color:#fff}
+.ctrl-btn:disabled{opacity:0.35;cursor:not-allowed;box-shadow:none!important;transform:none!important}
+.ctrl-btn.start{background:var(--green)}.ctrl-btn.start:hover:not(:disabled){box-shadow:0 0 14px rgba(16,185,129,0.25);transform:translateY(-1px)}
+.ctrl-btn.stop{background:var(--red)}.ctrl-btn.stop:hover:not(:disabled){box-shadow:0 0 14px rgba(239,68,68,0.25);transform:translateY(-1px)}
+.ctrl-btn.restart{background:var(--orange)}.ctrl-btn.restart:hover:not(:disabled){box-shadow:0 0 14px rgba(245,158,11,0.25);transform:translateY(-1px)}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   LOG WINDOW
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.log-window{border-radius:var(--radius);overflow:hidden;background:var(--bg-log);border:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column}
+.log-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.log-header .lbl{font-size:11px;color:var(--text-dimmer)}.log-header .count{font-size:10px;color:var(--text-dimmer)}.log-header .clear{font-size:10px;color:var(--text-dimmer);cursor:pointer;transition:color .12s}
+.log-header .clear:hover{color:var(--red)}
+.log-body{height:280px;padding:10px 14px;overflow-y:auto;font-family:'Cascadia Code','Fira Code','JetBrains Mono','Consolas',monospace;font-size:12px;line-height:1.8}
+.log-body .line{color:#22c55e} /* 鑽у厜缁?*/
+.log-body .line .ts{color:rgba(34,197,94,0.35)}
+.log-body .line.err{color:#ef4444}
+.log-body .line.err .ts{color:rgba(239,68,68,0.35)}
+.log-body .line.disconnected{color:var(--text-dim)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.05);border-radius:3px}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?   OTHER PAGES (PLACEHOLDER)
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+.placeholder{display:flex;align-items:center;justify-content:center;flex:1;color:var(--text-dim);font-size:15px}
+.page{display:none}.page.active{display:flex;flex-direction:column;flex:1;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- 鈺愨晲鈺?SIDEBAR 鈺愨晲鈺?-->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="lobster">馃</div>
+      <span class="name">OpenClaw</span>
+      <span class="ver">v1.5.0</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-item active" data-page="overview"><span class="icon">馃搳</span> 姒傝</div>
+      <div class="nav-item" data-page="ai"><span class="icon">馃</span> AI閰嶇疆</div>
+      <div class="nav-item" data-page="channels"><span class="icon">馃挰</span> 娑堟伅娓犻亾</div>
+      <div class="nav-item" data-page="diagnose"><span class="icon">馃敩</span> 娴嬭瘯璇婃柇</div>
+      <div class="nav-item" data-page="applogs"><span class="icon">馃搵</span> 搴旂敤鏃ュ織</div>
+      <div class="nav-item" data-page="settings"><span class="icon">鈿欙笍</span> 璁剧疆</div>
+    </nav>
+    <div class="sidebar-footer">馃 OpenClaw Manager</div>
+  </aside>
+
+  <!-- 鈺愨晲鈺?MAIN 鈺愨晲鈺?-->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div><span class="title">姒傝</span><span class="subtitle">鏈嶅姟鐘舵€併€佹棩蹇椾笌蹇嵎鎿嶄綔</span></div>
+      <button class="action-btn" onclick="location.reload()" title="鍒锋柊">鉄?/button>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- 鈺愨晲鈺愨晲鈺愨晲 姒傝椤?鈺愨晲鈺愨晲鈺愨晲 -->
+      <div class="page active" id="page-overview">
+
+        <div class="section-title">馃摗 鏈嶅姟鐘舵€?/div>
+        <div class="cards">
+          <div class="card"><div class="label">绔彛</div><div class="value green" id="statPort">18789</div><div class="sub">榛樿缃戝叧绔彛</div></div>
+          <div class="card"><div class="label">杩涚▼ PID</div><div class="value" id="statPid">鈥?/div><div class="sub">杩涚▼鏍囪瘑绗?/div></div>
+          <div class="card"><div class="label">鍐呭瓨鍗犵敤</div><div class="value orange" id="statMemory">鈥?/div><div class="sub">瀹炴椂鍐呭瓨浣跨敤</div></div>
+        </div>
+
+        <div class="section-title">鈿?蹇嵎鎿嶄綔</div>
+        <div class="btn-group">
+          <button class="ctrl-btn start" id="btnStart" onclick="serviceStart()">鈻讹笍 鍚姩</button>
+          <button class="ctrl-btn stop" id="btnStop" onclick="serviceStop()" disabled>鈴癸笍 鍋滄</button>
+          <button class="ctrl-btn restart" id="btnRestart" onclick="serviceRestart()">馃攧 閲嶅惎</button>
+        </div>
+
+        <div class="section-title">馃搵 瀹炴椂鏃ュ織</div>
+        <div class="log-window">
+          <div class="log-header">
+            <span class="lbl">鏃ュ織杈撳嚭</span>
+            <span class="count"><span id="logCount">0</span>/50 琛?/span>
+            <span class="clear" onclick="clearLogs()">娓呯┖</span>
+          </div>
+          <div class="log-body" id="logBody">
+            <div class="line disconnected">鈥斺€?鏃ュ織绯荤粺灏辩华锛岀瓑寰呰繛鎺?鈥斺€?/div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 鈺愨晲鈺愨晲鈺愨晲 鍏朵粬鍗犱綅椤甸潰 鈺愨晲鈺愨晲鈺愨晲 -->
+      <div class="page" id="page-ai"><div class="placeholder">馃 AI閰嶇疆 路 寮€鍙戜腑</div></div>
+      <div class="page" id="page-channels"><div class="placeholder">馃挰 娑堟伅娓犻亾 路 寮€鍙戜腑</div></div>
+      <div class="page" id="page-diagnose"><div class="placeholder">馃敩 娴嬭瘯璇婃柇 路 寮€鍙戜腑</div></div>
+      <div class="page" id="page-applogs"><div class="placeholder">馃搵 搴旂敤鏃ュ織 路 寮€鍙戜腑</div></div>
+      <div class="page" id="page-settings"><div class="placeholder">鈿欙笍 璁剧疆 路 寮€鍙戜腑</div></div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   OpenClaw Manager - 姒傝椤靛畬鏁翠氦浜?   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+
+// 鈹€鈹€ 閰嶇疆 鈹€鈹€
+const CONFIG = {
+  statusApi: 'http://127.0.0.1:18789/api/status',
+  startApi:   'http://127.0.0.1:18789/api/gateway/start',
+  stopApi:    'http://127.0.0.1:18789/api/gateway/stop',
+  restartApi: 'http://127.0.0.1:18789/api/gateway/restart',
+  wsUrl:      'ws://127.0.0.1:18789/logs',
+  defaultPort: 18789,
+  pollInterval: 2000,      // 2 绉掕疆璇?  maxLogLines: 50
+};
+
+// 鈹€鈹€ 鐘舵€?鈹€鈹€
+let ws = null;
+let pollTimer = null;
+let isRunning = false;      // true = 鏈嶅姟杩愯涓?let logLines = [];
+let wsReconnectTimer = null;
+
+// 鈹€鈹€ DOM 寮曠敤 鈹€鈹€
+const $ = id => document.getElementById(id);
+const logBody = $('logBody');
+const statPort = $('statPort');
+const statPid = $('statPid');
+const statMemory = $('statMemory');
+const logCount = $('logCount');
+const btnStart = $('btnStart');
+const btnStop = $('btnStop');
+const btnRestart = $('btnRestart');
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   鏃ュ織绯荤粺
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+function addLog(text, type) {
+  // type: 'info'(缁? | 'err'(绾? | 'disconnected'(鐏?
+  const now = new Date();
+  const ts = now.toTimeString().slice(0,8);
+  const cls = type === 'err' ? 'line err' : type === 'disconnected' ? 'line disconnected' : 'line';
+  logLines.push({ ts, text, type });
+  if (logLines.length > CONFIG.maxLogLines) logLines.splice(0, logLines.length - CONFIG.maxLogLines);
+  renderLogs();
+}
+
+function renderLogs() {
+  logBody.innerHTML = logLines.map(l =>
+    `<div class="${l.type === 'err' ? 'line err' : l.type === 'disconnected' ? 'line disconnected' : 'line'}"><span class="ts">[${l.ts}]</span> ${l.text}</div>`
+  ).join('');
+  if (!logLines.length) logBody.innerHTML = '<div class="line disconnected">鈥斺€?鏃ュ織宸叉竻绌?鈥斺€?/div>';
+  logCount.textContent = logLines.length;
+  logBody.scrollTop = logBody.scrollHeight;
+}
+
+function clearLogs() {
+  logLines = [];
+  renderLogs();
+  addLog('鏃ュ織宸叉竻绌?, 'disconnected');
+}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   鎸夐挳鐘舵€佺鐞?   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+function setButtonsState(running) {
+  isRunning = running;
+  btnStart.disabled = running;
+  btnStop.disabled = !running;
+  // 閲嶅惎锛氭湇鍔¤繍琛屾椂鍙敤锛屽仠姝㈡椂涓嶅彲鐢?  btnRestart.disabled = !running;
+}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   鐘舵€佽疆璇?(GET /api/status)
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+async function fetchStatus() {
+  try {
+    const res = await fetch(CONFIG.statusApi, { signal: AbortSignal.timeout(3000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    // 鏇存柊鍗＄墖
+    statPort.textContent = data.port || CONFIG.defaultPort;
+    statPid.textContent = data.pid || '鈥?;
+    const mem = data.memory;
+    if (mem !== undefined && mem !== null) {
+      statMemory.textContent = typeof mem === 'number' ? (mem >= 1024 ? (mem/1024).toFixed(1)+' MB' : mem+' MB') : mem;
+    } else {
+      statMemory.textContent = '鈥?;
+    }
+    // 鍒ゆ柇鏈嶅姟鏄惁杩愯锛堟湁 PID 琛ㄧず杩愯涓級
+    const running = data.pid && data.pid !== '-' && data.pid !== '';
+    setButtonsState(running);
+    // 濡傛灉鏄涓€娆℃娴嬪埌杩愯锛岃繛 WS
+    if (running && (!ws || ws.readyState !== WebSocket.OPEN)) connectWs();
+  } catch (e) {
+    // 璇锋眰澶辫触 鈫?鏈嶅姟鏈繛鎺?    statPid.textContent = '鈥?;
+    statMemory.textContent = '鈥?;
+    setButtonsState(false);
+    // 濡傛灉涔嬪墠鏈?WebSocket锛屾柇鎺?    if (ws) { try { ws.close() } catch(_){} ws = null }
+  }
+}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   WebSocket 瀹炴椂鏃ュ織
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+function connectWs() {
+  if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
+  try {
+    ws = new WebSocket(CONFIG.wsUrl);
+  } catch (e) {
+    addLog('WebSocket 杩炴帴澶辫触: ' + e.message, 'err');
+    scheduleWsReconnect();
+    return;
+  }
+
+  ws.onopen = () => {
+    addLog('WebSocket 宸茶繛鎺ワ紝鎺ユ敹瀹炴椂鏃ュ織...', 'info');
+    clearTimeout(wsReconnectTimer);
+  };
+
+  ws.onmessage = (ev) => {
+    const txt = ev.data && ev.data.trim ? ev.data.trim() : '';
+    if (txt) addLog(txt, 'info');
+  };
+
+  ws.onerror = () => {
+    addLog('WebSocket 杩炴帴寮傚父', 'err');
+  };
+
+  ws.onclose = () => {
+    addLog('WebSocket 宸叉柇寮€', 'disconnected');
+    ws = null;
+    // 濡傛灉鏈嶅姟杩樺湪杩愯锛屽皾璇曢噸杩?    if (isRunning) scheduleWsReconnect();
+  };
+}
+
+function scheduleWsReconnect() {
+  clearTimeout(wsReconnectTimer);
+  wsReconnectTimer = setTimeout(() => {
+    if (isRunning) connectWs();
+  }, 3000);
+}
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   鏈嶅姟鎿嶄綔 (鍚?鍋?閲嶅惎)
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+async function serviceCall(apiUrl, label) {
+  addLog(`鎿嶄綔: ${label}...`, 'info');
+  try {
+    const res = await fetch(apiUrl, { method: 'POST', signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json().catch(()=>({}));
+    addLog(`${label} 鎸囦护宸插彂閫?(${data.message || 'OK'})`, 'info');
+    // 鎿嶄綔鍚庡欢杩熶竴涓嬪啀鍒锋柊鐘舵€?    setTimeout(fetchStatus, 800);
+  } catch (e) {
+    addLog(`${label} 澶辫触: ${e.message}`, 'err');
+    addLog('銆愭湇鍔℃湭杩炴帴锛岃鍚姩OpenClaw缃戝叧銆?, 'err');
+  }
+}
+
+function serviceStart()   { serviceCall(CONFIG.startApi, '鈻讹笍 鍚姩缃戝叧') }
+function serviceStop()    { serviceCall(CONFIG.stopApi, '鈴癸笍 鍋滄缃戝叧') }
+function serviceRestart() { serviceCall(CONFIG.restartApi, '馃攧 閲嶅惎缃戝叧') }
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   椤甸潰瀵艰埅
+   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+function switchPage(id) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector(`.nav-item[data-page="${id}"]`).classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelector('.topbar .title').textContent = document.querySelector(`.nav-item[data-page="${id}"]`).textContent.trim();
+}
+
+document.querySelectorAll('.nav-item[data-page]').forEach(el => {
+  el.addEventListener('click', () => switchPage(el.dataset.page));
+});
+
+/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+   鍒濆鍖?   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+function init() {
+  addLog('OpenClaw Manager 姒傝闈㈡澘宸插姞杞?, 'disconnected');
+  addLog('姝ｅ湪妫€娴嬬綉鍏崇姸鎬?..', 'disconnected');
+  // 绔嬪嵆鎷変竴娆＄姸鎬?  fetchStatus();
+  // 2 绉掕疆璇?  pollTimer = setInterval(fetchStatus, CONFIG.pollInterval);
+  // 鍒濆杩?WS锛堝鏋滄湇鍔″凡杩愯锛?  setTimeout(() => {
+    if (isRunning) connectWs();
+  }, 1000);
+}
+
+// 椤甸潰鍗歌浇鏃舵竻鐞?window.addEventListener('beforeunload', () => {
+  clearInterval(pollTimer);
+  clearTimeout(wsReconnectTimer);
+  if (ws) try { ws.close() } catch(_){}
+});
+
+// 鍚姩
+init();
+</script>
+</body>
+</html>
